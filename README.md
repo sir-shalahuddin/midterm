@@ -37,7 +37,7 @@ In this project, I am using MongoDB (NoSQL). So, this structure is just a sugges
 # API Structure
 
 # Endpoint 
-#Users
+# Users
 * User object
 ```
 {
@@ -205,8 +205,7 @@ In this project, I am using MongoDB (NoSQL). So, this structure is just a sugges
     "message": "Unauthenticated"
   }
   ```
-
-#Videos
+# Videos
 * Video object
 ```
 {
@@ -232,7 +231,7 @@ In this project, I am using MongoDB (NoSQL). So, this structure is just a sugges
   }
   ```
 
-#Products
+# Products
 * Product object
 ```
 {
