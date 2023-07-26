@@ -160,7 +160,10 @@ In this project, I am using MongoDB (NoSQL). So, this structure is just a sugges
 * **URL Params**  
   None
 * **Data Params**  
-  None
+  ```
+  key: 'file'
+  value: file
+  ```
 * **Headers**  
   Content-Type: multipart/form-data  
   Authorization: Bearer `<Auth Token>`
@@ -172,6 +175,162 @@ In this project, I am using MongoDB (NoSQL). So, this structure is just a sugges
     "status": "success",
     "data": {
         "url": string
+    }
+}
+```
+* **Error Response:**  
+  * **Code:** 400  
+  **Content:** 
+  ```
+  {
+    "status": "fail",
+    "message": "invalid payload"
+  }
+  ```
+  OR  
+  * **Code:** 400  
+  **Content:** 
+  ```
+  {
+    "status": "fail",
+    "message": "Malformed or Missing token"
+  }
+  ```
+  OR  
+  * **Code:** 400  
+  **Content:** 
+  ```
+  {
+    "status": "fail",
+    "message": "Unauthenticated"
+  }
+  ```
+
+#Videos
+* Video object
+```
+{
+  _id: ObjectId
+  urlThumbnail: string
+}
+```
+**GET /videos**
+----
+  Returns all videos.
+* **URL Params**  
+* **Data Params**  
+  None
+* **Headers**  
+  Content-Type: application/json  
+* **Success Response:** 
+* **Code:** 200  
+  **Content:**  
+  ```
+  {
+    "status": "success",
+    "data": [ArrayOfVideoObject]
+  }
+  ```
+
+#Products
+* Product object
+```
+{
+  _id: ObjectId
+  url: string
+  title: string
+  price: Number
+  videoId: ObjectId
+}
+```
+**GET /videos/:id/products**
+----
+  Returns products on specified video.
+* **URL Params**
+  *Required:* `id=[integer]`  
+* **Data Params**  
+  None
+* **Headers**  
+  Content-Type: application/json  
+* **Success Response:** 
+* **Code:** 200  
+  **Content:**  
+  ```
+  {
+    "status": "success",
+    "data": [ArrayOfProductObject]
+  }
+  ```
+* **Error Response:**  
+  * **Code:** 400  
+  **Content:** 
+  ```
+  {
+    "status": "fail",
+    "message": "Invalid Video Id"
+  }
+
+#Comments
+* Comment object
+```
+{
+  _id: ObjectId
+  username: string
+  comment: string
+  createdAt: Number
+  videoId: ObjectId
+```
+**GET /videos/:id/comments**
+----
+  Returns comments on specified video.
+* **URL Params**
+  *Required:* `id=[integer]`  
+* **Data Params**  
+  None
+* **Headers**  
+  Content-Type: application/json  
+* **Success Response:** 
+* **Code:** 200  
+  **Content:**  
+  ```
+  {
+    "status": "success",
+    "data": [ArrayOfCommentsObject]
+  }
+  ```
+* **Error Response:**  
+  * **Code:** 400  
+  **Content:** 
+  ```
+  {
+    "status": "fail",
+    "message": "Invalid Video Id"
+  }
+  ```
+**POST /videos/:id/comments**
+----
+  add comment on video
+* **URL Params**  
+  None
+* **Data Params**  
+  ```
+  {
+    comment" string
+  }
+  ```
+* **Headers**  
+  Content-Type: aplication/json
+  Authorization: Bearer `<Auth Token>`
+* **Success Response:**  
+* **Code:** 200  
+  **Content:**  
+```
+{
+    "status": "success",
+    "data": {
+        "username": string,
+        "comment": string
+        "created_at": number
     }
 }
 ```
