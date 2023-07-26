@@ -41,142 +41,164 @@ In this project, I am using MongoDB (NoSQL). So, this structure is just a sugges
 * User object
 ```
 {
-  id: integer
+  _id: ObjectId
   username: string
   email: string
   password: string
+  urlProfilePicture: string
 }
 ```
+**POST /register**
+----
+  Returns logged user.
+* **URL Params**  
+  None
+* **Data Params**  
+  ```
+  {
+    "email": string,
+    "password": string,
+    "username": string
+  }
+  ```
+* **Headers**  
+  Content-Type: application/json  
+* **Success Response:**  
+* **Code:** 200  
+  **Content:**  
+```
+{
+    "status": "success"
+}
+```
+* **Error Response:**  
+  * **Code:** 400
+  **Content:** 
+  ```
+  {
+    "status": "fail",
+    "message": "email already registered"
+  }
+  ```
+  OR  
+  * **Code:** 400  
+  **Content:** 
+  ```
+  {
+    "status": "fail",
+    "message": "invalid payload"
+  }
+  ```
+**POST /login**
+----
+  Returns logged user.
+* **URL Params**  
+  None
+* **Data Params**  
+  ```
+  {
+    "email": string,
+    "password": string
+  }
+  ```
+* **Headers**  
+  Content-Type: application/json  
+* **Success Response:**  
+* **Code:** 200  
+  **Content:**  
+```
+{
+    "status": "success",
+    "token": string
+}
+```
+* **Error Response:**  
+  * **Code:** 401
+  **Content:** 
+  ```
+  {
+    "status": "fail",
+    "message": "Wrong email or password"
+  }
+  ```
+  OR  
+  * **Code:** 400  
+  **Content:** 
+  ```
+  {
+    "status": "fail",
+    "message": "invalid payload"
+  }
+  ```
+
 **GET /users**
 ----
-  Returns all users in the system.
+  Returns the logged user.
 * **URL Params**  
-  None
 * **Data Params**  
   None
 * **Headers**  
   Content-Type: application/json  
   Authorization: Bearer `<OAuth Token>`
+* **Success Response:** 
+* **Code:** 200  
+  **Content:**  
+  ```
+  {
+    "status": "success",
+    "data": {
+        "email": string,
+        "username": string,
+        "url_profile_picture": string
+    }
+  }
+  ```
+
+**PUT /users/profile-pictures**
+----
+  Change profile pictures and return url.
+* **URL Params**  
+  None
+* **Data Params**  
+  None
+* **Headers**  
+  Content-Type: multipart/form-data  
+  Authorization: Bearer `<Auth Token>`
 * **Success Response:**  
 * **Code:** 200  
   **Content:**  
 ```
 {
-  users: [
-           {<user_object>},
-           {<user_object>},
-           {<user_object>}
-         ]
-}
-```
-
-**GET /users/:id**
-----
-  Returns the specified user.
-* **URL Params**  
-  *Required:* `id=[integer]`
-* **Data Params**  
-  None
-* **Headers**  
-  Content-Type: application/json  
-  Authorization: Bearer `<OAuth Token>`
-* **Success Response:** 
-* **Code:** 200  
-  **Content:**  `{ <user_object> }` 
-* **Error Response:**  
-  * **Code:** 404  
-  **Content:** `{ error : "User doesn't exist" }`  
-  OR  
-  * **Code:** 401  
-  **Content:** `{ error : error : "You are unauthorized to make this request." }`
-
-**GET /users/:id/orders**
-----
-  Returns all Orders associated with the specified user.
-* **URL Params**  
-  *Required:* `id=[integer]`
-* **Data Params**  
-  None
-* **Headers**  
-  Content-Type: application/json  
-  Authorization: Bearer `<OAuth Token>`
-* **Success Response:**  
-* **Code:** 200  
-  **Content:**  
-```
-{
-  orders: [
-           {<order_object>},
-           {<order_object>},
-           {<order_object>}
-         ]
+    "status": "success",
+    "data": {
+        "url": string
+    }
 }
 ```
 * **Error Response:**  
-  * **Code:** 404  
-  **Content:** `{ error : "User doesn't exist" }`  
-  OR  
-  * **Code:** 401  
-  **Content:** `{ error : error : "You are unauthorized to make this request." }`
-
-**POST /users**
-----
-  Creates a new User and returns the new object.
-* **URL Params**  
-  None
-* **Headers**  
-  Content-Type: application/json  
-* **Data Params**  
-```
+  * **Code:** 400  
+  **Content:** 
+  ```
   {
-    username: string,
-    email: string
+    "status": "fail",
+    "message": "invalid payload"
   }
-```
-* **Success Response:**  
-* **Code:** 200  
-  **Content:**  `{ <user_object> }` 
-
-**PATCH /users/:id**
-----
-  Updates fields on the specified user and returns the updated object.
-* **URL Params**  
-  *Required:* `id=[integer]`
-* **Data Params**  
-```
+  ```
+  OR  
+  * **Code:** 400  
+  **Content:** 
+  ```
   {
-  	username: string,
-    email: string
+    "status": "fail",
+    "message": "Malformed or Missing token"
   }
-```
-* **Headers**  
-  Content-Type: application/json  
-  Authorization: Bearer `<OAuth Token>`
-* **Success Response:** 
-* **Code:** 200  
-  **Content:**  `{ <user_object> }`  
-* **Error Response:**  
-  * **Code:** 404  
-  **Content:** `{ error : "User doesn't exist" }`  
+  ```
   OR  
-  * **Code:** 401  
-  **Content:** `{ error : error : "You are unauthorized to make this request." }`
-
-**DELETE /users/:id**
-----
-  Deletes the specified user.
-* **URL Params**  
-  *Required:* `id=[integer]`
-* **Data Params**  
-  None
-* **Headers**  
-  Content-Type: application/json  
-  Authorization: Bearer `<OAuth Token>`
-* **Success Response:** 
-  * **Code:** 204 
-* **Error Response:**  
-  * **Code:** 404  
-  **Content:** `{ error : "User doesn't exist" }`  
-  OR  
-  * **Code:** 401  
-  **Content:** `{ error : error : "You are unauthorized to make this request." }`
+  * **Code:** 400  
+  **Content:** 
+  ```
+  {
+    "status": "fail",
+    "message": "Unauthenticated"
+  }
+  ```
