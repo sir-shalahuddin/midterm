@@ -269,7 +269,7 @@ In this project, I am using MongoDB (NoSQL). So, this structure is just a sugges
     "message": "Invalid Video Id"
   }
 
-#Comments
+# Comments
 * Comment object
 ```
 {
@@ -310,7 +310,7 @@ In this project, I am using MongoDB (NoSQL). So, this structure is just a sugges
 ----
   add comment on video
 * **URL Params**  
-  None
+  *Required:* `id=[integer]`  
 * **Data Params**  
   ```
   {
