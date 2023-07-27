@@ -35,9 +35,11 @@ In this project, I am using MongoDB (NoSQL). So, this structure is just a sugges
 |videoId     |ObjectId|required|videos|
 
 # API Structure
+![api structure](api-stucture.png)
+
 
 # Endpoint 
-# Users
+## Users
 * User object
 ```
 {
@@ -205,7 +207,7 @@ In this project, I am using MongoDB (NoSQL). So, this structure is just a sugges
     "message": "Unauthenticated"
   }
   ```
-# Videos
+## Videos
 * Video object
 ```
 {
@@ -231,7 +233,7 @@ In this project, I am using MongoDB (NoSQL). So, this structure is just a sugges
   }
   ```
 
-# Products
+## Products
 * Product object
 ```
 {
@@ -269,7 +271,7 @@ In this project, I am using MongoDB (NoSQL). So, this structure is just a sugges
     "message": "Invalid Video Id"
   }
 
-# Comments
+## Comments
 * Comment object
 ```
 {
@@ -360,3 +362,23 @@ In this project, I am using MongoDB (NoSQL). So, this structure is just a sugges
     "message": "Unauthenticated"
   }
   ```
+
+# How to run 
+1. Clone this repo
+```
+https://github.com/sir-shalahuddin/midterm.git
+```  
+2. Make .env file or copy the given .env outside this repositories
+
+3. Add all the packages
+```
+npm install
+```
+4. Run the aplication
+```
+npm run start
+```
+or start in development mode
+```
+npm run dev
+```
