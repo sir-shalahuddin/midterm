@@ -16,11 +16,11 @@ import uploadImageMiddleware from '../middlewares/uploadImage.js';
 
 const router = express.Router();
 
-// user
+// users
 router.post('/login', loginController);
 router.post('/register', registerController);
 
-// video
+// videos
 router.get('/videos', getVideoThumbnails);
 router.get('/videos/:id/products', getProductsByVideoId);
 router.get('/videos/:id/comments', getCommentsByVideoId);

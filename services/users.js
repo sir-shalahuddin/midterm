@@ -24,14 +24,23 @@ export const registerService = async ({ email, password, username }) => {
 export const loginService = async ({ email, password }) => {
     try {
         const userExists = await getUsersByEmail(email);
-        await comparePassword(password, userExists.password);
+        const match = await comparePassword(password, userExists.password);
+        if (!match) {
+            throw new AuthenticationError('Wrong email or password');
+        }
         return generateAuthToken(userExists);
     } catch (error) {
         throw new AuthenticationError('Wrong email or password');
     }
 };
 
-export const updateUrlProfilPictureService = async (url, id) => updateUrlProfilPicture(url, id);
+export const updateUrlProfilPictureService = async (url, id) => {
+    const data = await updateUrlProfilPicture(url, id);
+    if (data) {
+        return { url };
+    }
+    return data;
+};
 
 export const getUserService = async (id) => {
     const { email, username, urlProfilePicture } = await getUsers(id);

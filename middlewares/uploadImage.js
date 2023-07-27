@@ -2,6 +2,7 @@ import multer from 'multer';
 import multerS3 from 'multer-s3';
 import { S3Client } from '@aws-sdk/client-s3';
 import dotenv from 'dotenv';
+
 dotenv.config();
 
 const s3 = new S3Client({
@@ -14,7 +15,7 @@ const s3 = new S3Client({
 
 const s3Storage = multerS3({
     s3,
-    bucket: 'siraj-gigih',
+    bucket: process.env.BUCKET_NAME,
     metadata: (req, file, cb) => {
         cb(null, { fieldname: file.fieldname });
     },
