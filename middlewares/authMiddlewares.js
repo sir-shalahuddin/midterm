@@ -15,7 +15,7 @@ const authMiddleware = async (req, res, next) => {
             });
         }
     } else {
-        return res.status(400).json({
+        return res.status(401).json({
             status: 'fail',
             message: 'Malformed or Missing token',
         });
