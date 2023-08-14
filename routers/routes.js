@@ -1,5 +1,5 @@
 import express from 'express';
-import getVideoThumbnails from '../controllers/videos.js';
+import { getVideoThumbnails, getVideoById } from '../controllers/videos.js';
 import getProductsByVideoId from '../controllers/products.js';
 import {
     getCommentsByVideoId,
@@ -22,6 +22,7 @@ router.post('/register', registerController);
 
 // videos
 router.get('/videos', getVideoThumbnails);
+router.get('/videos/:id', getVideoById)
 router.get('/videos/:id/products', getProductsByVideoId);
 router.get('/videos/:id/comments', getCommentsByVideoId);
 

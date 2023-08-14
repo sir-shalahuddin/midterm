@@ -6,6 +6,19 @@ export async function findAllVideoThumbnail() {
     return Video.find();
 }
 
+export async function findVideosByCategory(category) {
+    return Video.find({ "category": { $elemMatch: { $eq: Number(category) } } });
+}
+
+export async function findVideosByQueries(query) {
+    return Video.find({
+        $or: [
+            { seller: { $regex: query, $options: 'i' } },
+            { description: { $regex: query, $options: 'i' } }
+        ]
+    });
+}
+
 export async function findVideoById(id) {
     if (!mongoose.isObjectIdOrHexString(id)) {
         throw new ClientError('Invalid Video Id');
