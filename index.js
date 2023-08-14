@@ -33,5 +33,5 @@ app.ws('/comments-ws', handleWebSocketConnection);
 
 app.listen(process.env.APP_PORT, () => {
     // eslint-disable-next-line no-console
-    console.log('server running on port 3000');
+    console.log('server running on port ' + process.env.APP_PORT);
 });
