@@ -5,7 +5,11 @@ In this project, I am using MongoDB (NoSQL). So, this structure is just a sugges
 |Field       |Type    |Option         |
 |------------|--------|---------------|
 |_id         |ObjectId|               |
-|urlThumbnail|String  |               |
+|urlThumbnail|String  |required       |
+|urlVideo    |String  |required       |
+|category    |Array   |required       |
+|description |String  |               |
+|seller      |String  |required       |
 
 ### users
 |Field            |Type    |Option         |
@@ -213,12 +217,18 @@ In this project, I am using MongoDB (NoSQL). So, this structure is just a sugges
 {
   _id: ObjectId
   urlThumbnail: string
+  urlVideo: string
+  category: array
+  description: string
+  seller: string
 }
 ```
 **GET /videos**
 ----
   Returns all videos.
-* **URL Params**  
+* **URL Params**
+* **URL Query**
+  q, category 
 * **Data Params**  
   None
 * **Headers**  
