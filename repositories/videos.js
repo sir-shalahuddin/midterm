@@ -7,15 +7,15 @@ export async function findAllVideoThumbnail() {
 }
 
 export async function findVideosByCategory(category) {
-    return Video.find({ "category": { $elemMatch: { $eq: Number(category) } } });
+    return Video.find({ category: { $elemMatch: { $eq: Number(category) } } });
 }
 
 export async function findVideosByQueries(query) {
     return Video.find({
         $or: [
             { seller: { $regex: query, $options: 'i' } },
-            { description: { $regex: query, $options: 'i' } }
-        ]
+            { description: { $regex: query, $options: 'i' } },
+        ],
     });
 }
 

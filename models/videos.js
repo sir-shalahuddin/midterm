@@ -19,7 +19,7 @@ const videoSchema = new mongoose.Schema({
     seller: {
         type: String,
         required: true,
-    }
+    },
 });
 const Video = mongoose.model('videos', videoSchema);
 export default Video;

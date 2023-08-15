@@ -10,6 +10,7 @@ export const getCommentsByVideoIdService = async (id) => {
     const data = await findAllCommentsByVideoId(id);
 
     const comment = data.map((obj) => ({
+        // eslint-disable-next-line no-underscore-dangle
         id: obj._id,
         username: obj.username,
         comment: obj.comment,

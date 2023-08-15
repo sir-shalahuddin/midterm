@@ -22,7 +22,7 @@ router.post('/register', registerController);
 
 // videos
 router.get('/videos', getVideoThumbnails);
-router.get('/videos/:id', getVideoById)
+router.get('/videos/:id', getVideoById);
 router.get('/videos/:id/products', getProductsByVideoId);
 router.get('/videos/:id/comments', getCommentsByVideoId);
 

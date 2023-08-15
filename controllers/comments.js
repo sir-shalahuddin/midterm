@@ -44,39 +44,34 @@ export const postCommentsByVideoId = async (req, res) => {
             message: e.statusCode ? e.message : 'something wrong from side',
         });
     }
-
 };
 
 const clients = [];
 
 export const handleWebSocketConnection = async (ws) => {
-    console.log('WebSocket connected');
-
     clients.push(ws);
 
     ws.on('message', async (message) => {
         try {
-            const obj = JSON.parse(message)
+            const obj = JSON.parse(message);
             await postCommentsByVideoIdService(obj);
-            ws.send(message)
+            ws.send(message);
+            clients.forEach((client) => {
+                if (client !== ws && client.readyState === WebSocket.OPEN) {
+                    client.send(obj.message);
+                }
+            });
         } catch (error) {
             ws.send(JSON.stringify({ error: 'Invalid request' }));
+            // eslint-disable-next-line no-console
             console.error('An error occurred:', error);
         }
-
-
-        clients.forEach((client) => {
-            if (client !== ws && client.readyState === WebSocket.OPEN) {
-                client.send(savedMessage.message);
-            }
-        });
     });
 
     ws.on('close', () => {
-        console.log('WebSocket disconnected');
         const index = clients.indexOf(ws);
         if (index !== -1) {
             clients.splice(index, 1);
         }
     });
-}
+};

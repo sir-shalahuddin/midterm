@@ -10,16 +10,12 @@ export async function findAllCommentsByVideoId(id) {
 }
 
 export async function saveCommentsByVideoId(username, comment, id) {
-    try {
-        const payload = new Comment({
-            username,
-            comment,
-            videoId: id,
-        });
+    const payload = new Comment({
+        username,
+        comment,
+        videoId: id,
+    });
 
-        const savedComment = await payload.save();
-        return savedComment;
-    } catch (error) {
-        throw error;
-    }
+    const savedComment = await payload.save();
+    return savedComment;
 }
