@@ -8,7 +8,7 @@ In this project, I am using MongoDB (NoSQL). So, this structure is just a sugges
 |urlThumbnail|String  |               |
 
 ### users
-|Field            |Type    |Option         |
+|Field            |Type    |Option         | 
 |-----------------|--------|---------------|
 |_id              |ObjectId|-              |
 |email            |String  |unique,required|
