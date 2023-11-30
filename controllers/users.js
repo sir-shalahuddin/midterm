@@ -2,6 +2,21 @@ import {
     getUserService, loginService, registerService, updateUrlProfilPictureService,
 } from '../services/users.js';
 
+function isValidEmail(email) {
+    // Define a regular expression for a simple email validation
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+    // Use the test() method to check if the email matches the pattern
+    return emailRegex.test(email);
+}
+
+function isValidPassword(password) {
+    const minLength = 8;
+    const maxLength = 16;
+
+    return password.length >= minLength && password.length <= maxLength;
+}
+
 export const loginController = async (req, res) => {
     try {
         const { email, password } = req.body;
@@ -35,6 +50,21 @@ export const registerController = async (req, res) => {
                 message: 'invalid payload',
             });
         }
+
+        if (!(isValidEmail(email))) {
+            return res.status(400).json({
+                status: 'fail',
+                message: 'invalid email format',
+            });
+        }
+
+        if (!(isValidPassword(password))) {
+            return res.status(400).json({
+                status: 'fail',
+                message: 'invalid password length',
+            });
+        }
+
         await registerService(req.body);
         return res.status(200).json({
             status: 'success',
