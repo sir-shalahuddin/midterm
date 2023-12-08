@@ -1,5 +1,5 @@
 # Live Demo on Google Cloud Run 
-- [Backend Only](https://midterm-2itxykb6ra-et.a.run.app)
+- [Backend Only](https://midterm-2itxykb6ra-et.a.run.app/videos)
 - [Front-End](https://final-project-2itxykb6ra-et.a.run.app)
 # Database Structure
 In this project, I am using MongoDB (NoSQL). So, this structure is just a suggestion that is suitable for this code.
