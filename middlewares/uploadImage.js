@@ -1,41 +1,52 @@
 import multer from 'multer';
-import multerS3 from 'multer-s3';
-import { S3Client } from '@aws-sdk/client-s3';
+import { Storage } from '@google-cloud/storage';
 import dotenv from 'dotenv';
 
 dotenv.config();
 
-const s3 = new S3Client({
-    credentials: {
-        accessKeyId: process.env.ACCESS_KEY,
-        secretAccessKey: process.env.SECRET_KEY,
-    },
-    region: process.env.REGION,
-});
+const storage = new Storage();
+// Konfigurasi multer storage untuk Google Cloud Storage
+const gcsStorage = multer.memoryStorage();
 
-const s3Storage = multerS3({
-    s3,
-    bucket: process.env.BUCKET_NAME,
-    metadata: (req, file, cb) => {
-        cb(null, { fieldname: file.fieldname });
-    },
-    key: (req, file, cb) => {
-        const fileName = `${Date.now()}_${file.fieldname}_${file.originalname}`;
-        cb(null, fileName);
-    },
-});
+// Fungsi untuk mengatur nama file yang akan diunggah
+const generateFileName = (file) => {
+    const fileName = `${Date.now()}_${file.originalname}`;
+    return fileName;
+};
 
-const uploadImage = multer({
-    storage: s3Storage,
-    limits: {
-        fileSize: 1024 * 1024 * 2, // 2mb file size
-    },
-});
+// Fungsi untuk mengunggah file ke GCS
+const uploadFileToGCS = (file) => {
+    const bucket = storage.bucket(process.env.GCS_BUCKET_NAME);
+    const fileName = generateFileName(file);
+    const fileToUpload = bucket.file(fileName);
 
+    const stream = fileToUpload.createWriteStream({
+        metadata: {
+            contentType: file.mimetype,
+        },
+        resumable: false,
+    });
+
+    return new Promise((resolve, reject) => {
+        stream.on('error', (error) => {
+            reject(error);
+        });
+
+        stream.on('finish', () => {
+            // Setelah file selesai diunggah, dapatkan URL file yang diunggah
+            const publicUrl = `https://storage.googleapis.com/${bucket.name}/${fileToUpload.name}`;
+            resolve(publicUrl);
+        });
+
+        stream.end(file.buffer);
+    });
+};
+
+// Middleware untuk mengelola proses upload ke GCS
 const uploadImageMiddleware = async (req, res, next) => {
-    const file = uploadImage.single('file');
-    // eslint-disable-next-line consistent-return
-    file(req, res, (error) => {
+    const multerUpload = multer({ storage: gcsStorage }).single('file');
+
+    multerUpload(req, res, async (error) => {
         if (error instanceof multer.MulterError) {
             return res.status(400).json({
                 status: 'fail',
@@ -49,7 +60,18 @@ const uploadImageMiddleware = async (req, res, next) => {
                 message: 'Something wrong in our side',
             });
         }
-        next();
+
+        try {
+            // Upload file ke GCS
+            req.file.publicUrl = await uploadFileToGCS(req.file);
+            next();
+        } catch (uploadError) {
+            console.error('Error uploading file to GCS:', uploadError);
+            return res.status(500).json({
+                status: 'fail',
+                message: 'Failed to upload file to Google Cloud Storage',
+            });
+        }
     });
 };
 

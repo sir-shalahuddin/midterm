@@ -3,10 +3,8 @@ import {
 } from '../services/users.js';
 
 function isValidEmail(email) {
-    // Define a regular expression for a simple email validation
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
-    // Use the test() method to check if the email matches the pattern
     return emailRegex.test(email);
 }
 
@@ -82,7 +80,7 @@ export const registerController = async (req, res) => {
 export const updateProfilePictureController = async (req, res) => {
     try {
         const { _id } = req.body.tokenData;
-        const url = req.file?.location;
+        const url = req.file?.publicUrl;
         if (!url) {
             return res.status(400).json({
                 status: 'fail',
